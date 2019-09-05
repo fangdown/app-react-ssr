@@ -1,13 +1,16 @@
-import { Link, Switch, Route } from 'react-router-dom';
 import React from 'react';
-import Home from './page/home'
-import List from './page/list'
+import Home from './pages/home'
+import Detail from './pages/detail'
 
-export default () => {
-  return (
-    <Switch>
-      <Route exact path="/" component={Home}></Route>
-      <Route exact path="/list" component={List}></Route>
-    </Switch>
-  )
-}
+export default [
+    {
+        path: '/',
+        component: Home,
+        exact: true,
+    },
+    {
+        path: '/detail/:id',
+        component: Detail,
+        exact: true,
+    },
+]

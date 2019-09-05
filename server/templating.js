@@ -4,6 +4,8 @@ import path from 'path'
 import { renderToString } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom' // 注意不是StaticRouter 而是其中一个属性
 import RouterConfig from '../app/router'
+import {Provider} from 'react-redux'
+import createStore from '../app/redux/store'
 
 // 匹配模板中的{{}}
 function templating(props) {
@@ -13,14 +15,18 @@ function templating(props) {
 
 export default function (ctx, next) {
   try {
-    ctx.render = () => {
+    ctx.render = (data) => {
+      const store = createStore(data)
       const html = renderToString(
-        <StaticRouter location={ctx.url}>
-          <RouterConfig />
-        </StaticRouter>
+        <Provider store={store}>
+          <StaticRouter location={ctx.url}>
+            <RouterConfig />
+          </StaticRouter>
+        </Provider>
       );
       const body = templating({
-        html
+        html,
+        store: JSON.stringify(data, null, 4) //使用四个空格缩进
       });
       ctx.body = body;
     }

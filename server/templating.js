@@ -8,9 +8,13 @@ import {Provider} from 'react-redux'
 import createStore from '../app/redux/store'
 
 // 匹配模板中的{{}}
+// function templating(props) {
+//   const template = fs.readFileSync(path.join(__dirname, '../template/server.html'), 'utf-8');
+//   return template.replace(/{{([\s\S]*?)}}/g, (_, key) => props[key.trim()]);
+// }
 function templating(props) {
   const template = fs.readFileSync(path.join(__dirname, '../template/server.html'), 'utf-8');
-  return template.replace(/{{([\s\S]*?)}}/g, (_, key) => props[key.trim()]);
+  return template.replace(/<!--([\s\S]*?)-->/g, (_, key) => props[key.trim()]);
 }
 
 export default function (ctx, next) {
@@ -26,7 +30,8 @@ export default function (ctx, next) {
       );
       const body = templating({
         html,
-        store: JSON.stringify(data, null, 4) //使用四个空格缩进
+        // store: JSON.stringify(data, null, 4) //使用四个空格缩进
+        store: `<script>window.__STORE__ = ${JSON.stringify(data)}</script>`,
       });
       ctx.body = body;
     }

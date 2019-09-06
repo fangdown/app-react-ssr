@@ -36,6 +36,7 @@ class Detail extends React.Component {
     const page = this.props.loaded ? (
       <Loading />
     ) : (
+      // eslint-disable-next-line react/no-danger
       <section className={styles['article-body']} dangerouslySetInnerHTML={{ __html: data }} />
     )
     return <>{page}</>

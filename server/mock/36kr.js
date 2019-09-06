@@ -1,6 +1,7 @@
-const fetch = require('./fetch');
-const https = require('https');
-const cheerio = require('cheerio');
+/* eslint-disable class-methods-use-this */
+const https = require('https')
+const cheerio = require('cheerio')
+const fetch = require('./fetch')
 
 class Mock {
   fetchFlash(b_id, page = 10) {
@@ -13,26 +14,30 @@ class Mock {
 
   fetchDetail(id = 5197296) {
     return new Promise(resolve => {
-      https.get({
-        hostname: '36kr.com',
-        path: `/p/${id}`,
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1'
+      https.get(
+        {
+          hostname: '36kr.com',
+          path: `/p/${id}`,
+          headers: {
+            'User-Agent':
+              'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1'
+          }
         },
-      }, res => {
-        let htmlBuffer = [];
-        res.on('data', chunk => {
-          htmlBuffer.push(chunk);
-        });
-        res.on('end', () => {
-          const chunkAll = Buffer.concat(htmlBuffer);
-          const $ = cheerio.load(chunkAll);
-          const content = $('.article-body').html();
-          resolve(content);
-        })
-      })
+        res => {
+          const htmlBuffer = []
+          res.on('data', chunk => {
+            htmlBuffer.push(chunk)
+          })
+          res.on('end', () => {
+            const chunkAll = Buffer.concat(htmlBuffer)
+            const $ = cheerio.load(chunkAll)
+            const content = $('.article-body').html()
+            resolve(content)
+          })
+        }
+      )
     })
   }
 }
 
-module.exports = new Mock();
+module.exports = new Mock()

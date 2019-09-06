@@ -1,3 +1,4 @@
 {
-  "app/*.js": ["npm run eslint-fix", "prettier --write", "git add"]
+  "app/*.{js,jsx}": ["npm run eslint-fix", "prettier --write", "git add"],
+  "server/*.js": ["npm run eslint-fix", "prettier --write", "git add"]
 }

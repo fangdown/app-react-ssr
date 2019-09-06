@@ -1,24 +1,25 @@
-const { renderToString } = require('react-dom/server');
+/* eslint-disable func-names */
+const { renderToString } = require('react-dom/server')
 
 function templating(template) {
-  return props => template.replace(/<!--([\s\S]*?)-->/g, (_, key) => props[key.trim()]);
+  return props => template.replace(/<!--([\s\S]*?)-->/g, (_, key) => props[key.trim()])
 }
 
-module.exports = async function (ctx, serverBundle, template) {
+module.exports = async function(ctx, serverBundle, template) {
   try {
-    const render = templating(template);
-    const jsx = await serverBundle(ctx);
-    const html = renderToString(jsx);
+    const render = templating(template)
+    const jsx = await serverBundle(ctx)
+    const html = renderToString(jsx)
     const body = render({
       html,
-      store: `<script>window.__STORE__ = ${JSON.stringify(ctx.store.getState())}</script>`,
-    });
-    ctx.body = body;
-    ctx.type = 'text/html';
-  }
-  catch (err) {
-    console.error(err.message);
-    ctx.body = err.message;
-    ctx.type = 'text/html';
+      store: `<script>window.__STORE__ = ${JSON.stringify(ctx.store.getState())}</script>`
+    })
+    ctx.body = body
+    ctx.type = 'text/html'
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(err.message)
+    ctx.body = err.message
+    ctx.type = 'text/html'
   }
 }

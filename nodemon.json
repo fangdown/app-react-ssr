@@ -1,0 +1,13 @@
+{
+  "verbose": true,
+  "ext": "ts js",
+  "watch": ["server"],
+  "ignore": ["node_modules", "dist"],
+  "exec": "node --inspect=15001 server/app.js",
+  "env": {
+    "PORT": "15000",
+    "NODE_ENV": "development",
+    "RUNTIME_ENV": "dev",
+    "DEBUG": "express:*,config,framework*,miniprogram:*"
+  }
+}

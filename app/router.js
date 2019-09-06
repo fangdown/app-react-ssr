@@ -5,11 +5,11 @@ export default [
   {
     path: '/',
     component: Home,
-    exact: true,
+    exact: true
   },
   {
     path: '/detail/:id',
     component: Detail,
-    exact: true,
-  },
+    exact: true
+  }
 ]

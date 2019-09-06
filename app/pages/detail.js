@@ -5,42 +5,42 @@ import Loading from '../components/loading';
 import styles from './detail.less';
 
 function mapStateToProps(state) {
-    return { ...state.detail };
+  return { ...state.detail };
 }
 
 function mapDispatchToProps(dispath) {
-    return {
-        fetchDetail: (id) => dispath(detailActions.fetchDetail(id)),
-        reset: () => dispath(detailActions.reset())
-    }
+  return {
+    fetchDetail: (id) => dispath(detailActions.fetchDetail(id)),
+    reset: () => dispath(detailActions.reset())
+  }
 }
 
 class Detail extends React.Component {
-    constructor() {
-        super();
-    }
+  constructor() {
+    super();
+  }
 
-    static asyncData(store, match) {
-        const { fetchDetail } = mapDispatchToProps(store.dispatch);
-        return fetchDetail(match.params.id);
-    }
+  static asyncData(store, match) {
+    const { fetchDetail } = mapDispatchToProps(store.dispatch);
+    return fetchDetail(match.params.id);
+  }
 
-    componentDidMount() {
-        const { fetchDetail, match, data } = this.props;
-        data || fetchDetail(match.params.id);
-    }
+  componentDidMount() {
+    const { fetchDetail, match, data } = this.props;
+    data || fetchDetail(match.params.id);
+  }
 
-    componentWillUnmount() {
-        this.props.reset();
-    }
+  componentWillUnmount() {
+    this.props.reset();
+  }
 
-    render() {
-        const data = this.props.data;
-        const page = this.props.loaded
-            ? <Loading/>
-            : <section className={ styles['article-body'] } dangerouslySetInnerHTML={ { __html: data } }/>
-        return <Fragment>{ page }</Fragment>
-    }
+  render() {
+    const data = this.props.data;
+    const page = this.props.loaded
+      ? <Loading />
+      : <section className={styles['article-body']} dangerouslySetInnerHTML={{ __html: data }} />
+    return <Fragment>{page}</Fragment>
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Detail);

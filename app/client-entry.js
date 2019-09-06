@@ -9,10 +9,10 @@ import createApp from './createApp';
 const { router, store } = createApp(window.__STORE__);
 
 ReactDom.hydrate(
-    <Provider store={store}>
-        <BrowserRouter>
-            { router }
-        </BrowserRouter>
-    </Provider>,
-    document.getElementById('app')
+  <Provider store={store}>
+    <BrowserRouter>
+      {router}
+    </BrowserRouter>
+  </Provider>,
+  document.getElementById('app')
 )

@@ -1,0 +1,45 @@
+#!/bin/sh
+
+img=fe/react-ssr
+
+hash=`git log | head -1 | awk '{print $2}'`
+short=${hash:0:10}
+timestamp=$(date '+%Y%m%d-%H%M')
+tag=${timestamp}-${short}
+
+currdir=$(pwd)
+mydir=$(dirname "${BASH_SOURCE[0]}")
+cd $mydir
+
+# 清理旧文件
+rm -rf $(pwd)/dist
+
+
+# 构建server
+npm run build --if-present || exit 1
+
+
+# 拷贝静态文件到var目录
+# cp -r /app/var/static var
+
+# 上传cdn
+# node upload-cdn.js
+
+# 安装依赖模块及构建前端资源和项目镜像
+docker build -t $img . \
+&& docker tag $img $img:${tag} \
+|| exit 1
+
+#CONTRUNFlag判断容器是否正在运行，1表示正在运行，0表示该容器不在运行或者不存在该容器名
+CONTRUNFLAG=`docker ps | egrep -c "fe-react-ssr"`
+if [ $CONTRUNFLAG -eq 1 ];then
+  docker stop "fe-react-ssr"
+  if [ $? -eq 0 ];then
+    docker rm "fe-react-ssr"
+    if [ $? -eq 0 ];then
+      docker run --name='fe-react-ssr' -d -p 15000:15000 fe/react-ssr:latest
+    fi
+  fi
+else 
+   docker run --name='fe-react-ssr' -d -p 15000:15000 fe/react-ssr:latest
+fi

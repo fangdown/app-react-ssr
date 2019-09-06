@@ -1,11 +1,9 @@
-const { resolve } = require('./utils');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const cleanWebpackPlugin = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const { resolve } = require('./utils')
 
 module.exports = config => {
-
   const baseConfig = {
     // 打包的入口文件
     entry: resolve('app/main.js'),
@@ -27,13 +25,10 @@ module.exports = config => {
           use: {
             loader: 'babel-loader',
             options: {
-              presets: [
-                '@babel/preset-env',
-                '@babel/preset-react',
-              ],
+              presets: ['@babel/preset-env', '@babel/preset-react'],
               plugins: [
-                "@babel/plugin-transform-runtime",
-                ["@babel/plugin-proposal-class-properties", { "loose": false }],
+                '@babel/plugin-transform-runtime',
+                ['@babel/plugin-proposal-class-properties', { loose: false }]
               ]
             }
           }
@@ -51,8 +46,8 @@ module.exports = config => {
               options: {
                 modules: true,
                 localIdentName: '[path][local]-[hash:base64:5]'
-              },
-            },
+              }
+            }
           ]
         },
         {
@@ -65,34 +60,38 @@ module.exports = config => {
               options: {
                 modules: true,
                 localIdentName: '[path][local]-[hash:base64:5]'
-              },
+              }
             },
             'less-loader'
           ]
         },
         {
           test: /\.(png|jpg|gif|svg)$/,
-          loader: `url-loader?limit=1000&name=${config.imagePath}${config.noHash ? '[name].[ext]' : '[name].[hash:8]'}.[ext]`
+          loader: `url-loader?limit=1000&name=${config.imagePath}${
+            config.noHash ? '[name].[ext]' : '[name].[hash:8]'
+          }.[ext]`
         },
         {
           test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-          loader: `file-loader?name=${config.publicPath}fonts/${config.noHash ? '[name].[ext]' : '[name].[hash:8]'}.[ext]`
-        },
+          loader: `file-loader?name=${config.publicPath}fonts/${
+            config.noHash ? '[name].[ext]' : '[name].[hash:8]'
+          }.[ext]`
+        }
       ]
     },
     resolve: {
       // 设置路径别名
       alias: {
-        '@': resolve('app'),
+        '@': resolve('app')
       },
       // 文件后缀自动补全
-      extensions: ['.js', '.jsx'],
+      extensions: ['.js', '.jsx']
     },
     // 第三方依赖，可以写在这里，不打包
     externals: {},
     plugins: [
       new MiniCssExtractPlugin({
-        filename: config.noHash ? 'css/[name].css' : 'css/[name].[chunkhash].css',
+        filename: config.noHash ? 'css/[name].css' : 'css/[name].[chunkhash].css'
       })
     ],
     optimization: {
@@ -108,5 +107,5 @@ module.exports = config => {
     }
   }
 
-  return baseConfig;
+  return baseConfig
 }

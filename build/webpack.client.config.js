@@ -1,10 +1,10 @@
-const merge = require('webpack-merge');
-const webpack = require('webpack');
-const baseConfig = require('./webpack.base.config');
-const { resolve } = require('./utils');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const config = require('./config')[process.env.NODE_ENV];
+const merge = require('webpack-merge')
+const webpack = require('webpack')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const baseConfig = require('./webpack.base.config')
+const { resolve } = require('./utils')
+const config = require('./config')[process.env.NODE_ENV]
 
 const clientConfig = merge(baseConfig(config), {
   entry: resolve('app/client-entry.js'),
@@ -30,7 +30,7 @@ const clientConfig = merge(baseConfig(config), {
       filename: 'server.tpl.html',
       template: resolve('app/index.html')
     })
-  ],
+  ]
 })
 
 if (process.env.NODE_ENV === 'production') {
@@ -50,11 +50,11 @@ if (process.env.NODE_ENV === 'production') {
         priority: 10
       }
     }
-  };
+  }
 
   clientConfig.optimization.runtimeChunk = {
-    name: 'manifest',
-  };
+    name: 'manifest'
+  }
 }
 
-module.exports = clientConfig;
+module.exports = clientConfig

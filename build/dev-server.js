@@ -1,3 +1,4 @@
+/* eslint-disable*/
 const fs = require('fs')
 const path = require('path')
 const MFS = require('memory-fs')
@@ -10,9 +11,9 @@ const readFile = (fs, file) => {
   return fs.readFileSync(path.join(clientConfig.output.path, file), 'utf-8')
 }
 
-module.exports = function (app, templatePath) {
+// eslint-disable-next-line func-names
+module.exports = function(app, templatePath) {
   let bundle
-  let template
   let clientHtml
 
   // 这里其实就是吧resolve单独拿出来了，其实你也可以直接吧下面的代码写在promise里面，这样的好处就是减少代码嵌套。
@@ -24,14 +25,13 @@ module.exports = function (app, templatePath) {
   // 更新触发的函数
   const update = () => {
     if (bundle && clientHtml) {
-      ready({ bundle, clientHtml });
+      ready({ bundle, clientHtml })
     }
   }
 
   // 监听模版文件
-  template = fs.readFileSync(templatePath, 'utf-8')
   chokidar.watch(templatePath).on('change', () => {
-    template = fs.readFileSync(templatePath, 'utf-8')
+    // eslint-disable-next-line no-console
     console.log('index.html template updated.')
     update()
   })
@@ -39,17 +39,14 @@ module.exports = function (app, templatePath) {
   // 监听热更新的入口
   clientConfig.entry.app = ['webpack-hot-middleware/client', clientConfig.entry.app]
   clientConfig.output.filename = '[name].js'
-  clientConfig.plugins.push(
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
-  )
+  clientConfig.plugins.push(new webpack.HotModuleReplacementPlugin(), new webpack.NoEmitOnErrorsPlugin())
 
   // 创建dev服务
   const clientCompiler = webpack(clientConfig)
   const devMiddleware = require('koa-webpack-dev-middleware')(clientCompiler, {
     publicPath: clientConfig.output.publicPath,
     noInfo: true
-  });
+  })
   app.use(devMiddleware)
   clientCompiler.hooks.done.tap('DevPlugin', stats => {
     stats = stats.toJson()
@@ -57,10 +54,7 @@ module.exports = function (app, templatePath) {
     stats.warnings.forEach(err => console.warn(err))
     if (stats.errors.length) return
     // 获取dev内存中入口html
-    clientHtml = readFile(
-      devMiddleware.fileSystem,
-      'server.tpl.html',
-    )
+    clientHtml = readFile(devMiddleware.fileSystem, 'server.tpl.html')
     update()
   })
 
@@ -79,7 +73,7 @@ module.exports = function (app, templatePath) {
     if (stats.errors.length) return
 
     // 获取内存中的server-bundle
-    bundle = eval(readFile(mfs, 'js/server-bundle.js')).default;
+    bundle = eval(readFile(mfs, 'js/server-bundle.js')).default
     update()
   })
 

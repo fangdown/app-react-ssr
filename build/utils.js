@@ -1,3 +1,3 @@
-const path = require('path');
+const path = require('path')
 
-exports.resolve = (...arg) => path.join(__dirname, '..', ...arg);
+exports.resolve = (...arg) => path.join(__dirname, '..', ...arg)

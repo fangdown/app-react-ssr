@@ -37,9 +37,9 @@ if [ $CONTRUNFLAG -eq 1 ];then
   if [ $? -eq 0 ];then
     docker rm "fe-react-ssr"
     if [ $? -eq 0 ];then
-      docker run --name='fe-react-ssr' -d -p 15000:15000 fe/react-ssr:latest
+      docker run --name='fe-react-ssr' -d -p 15100:15100 fe/react-ssr:latest
     fi
   fi
 else 
-   docker run --name='fe-react-ssr' -d -p 15000:15000 fe/react-ssr:latest
+   docker run --name='fe-react-ssr' -d -p 15100:15100 fe/react-ssr:latest
 fi

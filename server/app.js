@@ -41,5 +41,5 @@ app.use(router.routes(), router.allowedMethods())
 
 app.listen(config.port, () => {
   // eslint-disable-next-line no-console
-  console.info(`node服务已启动，服务地址为：locahost:${config.port}`)
+  console.info(`node服务已启动，服务地址为：localhost:${config.port}`)
 })

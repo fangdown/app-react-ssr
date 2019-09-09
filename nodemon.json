@@ -3,9 +3,9 @@
   "ext": "ts js",
   "watch": ["server"],
   "ignore": ["node_modules", "dist"],
-  "exec": "node --inspect=15001 server/app.js",
+  "exec": "node --inspect=15101 server/app.js",
   "env": {
-    "PORT": "15000",
+    "PORT": "15100",
     "NODE_ENV": "development",
     "RUNTIME_ENV": "dev",
     "DEBUG": "express:*,config,framework*,miniprogram:*"

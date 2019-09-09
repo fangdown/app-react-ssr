@@ -8,18 +8,18 @@
 module.exports = {
   // 生产环境
   production: {
-    port: 80, // 服务器启动的端口号
+    port: 15100, // 服务器启动的端口号
     env: 'production', // 环境
-    api: 'http://localhost/api', // api 接口地址
+    api: 'http://localhost:15100/api', // api 接口地址
     publicPath: '/', // 静态资源地址
     devtool: '#source-map', // devtool
     noHash: false // 生产的静态资源是否需要hash值
   },
   // 开发环境
   development: {
-    port: 8000, // 服务器启动的端口号
+    port: 15100, // 服务器启动的端口号
     env: 'development', // 环境
-    api: 'http://localhost:8000/api', // api 接口地址
+    api: 'http://localhost:15100/api', // api 接口地址
     publicPath: '/', // 静态资源地址
     devtool: 'eval', // devtool
     noHash: true // 生产的静态资源是否需要hash值

@@ -37,7 +37,9 @@ module.exports = function(app, templatePath) {
   })
 
   // 监听热更新的入口
-  clientConfig.entry.app = ['webpack-hot-middleware/client', clientConfig.entry.app]
+  console.info('============================clientConfig.entry',clientConfig.entry)
+  clientConfig.entry = ['webpack-hot-middleware/client', clientConfig.entry]
+  console.info('============================clientConfig.entry-length',clientConfig.entry.length)
   clientConfig.output.filename = '[name].js'
   clientConfig.plugins.push(new webpack.HotModuleReplacementPlugin(), new webpack.NoEmitOnErrorsPlugin())
 
@@ -45,7 +47,7 @@ module.exports = function(app, templatePath) {
   const clientCompiler = webpack(clientConfig)
   const devMiddleware = require('koa-webpack-dev-middleware')(clientCompiler, {
     publicPath: clientConfig.output.publicPath,
-    noInfo: true
+    noInfo: false
   })
   app.use(devMiddleware)
   clientCompiler.hooks.done.tap('DevPlugin', stats => {
